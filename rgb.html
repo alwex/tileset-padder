@@ -1,0 +1,46 @@
+<html>
+<head>
+<script src="jquery-1.10.2.min.js"></script>
+</head>
+<body>
+	HEX
+	<br />
+	<input type="text" value="" id="hex" />
+	<br /> RGB
+	<br />
+	<input type="text" value="" id="rgb" />
+    <br /> RGB 255
+    <br />
+    <input type="text" value="" id="rgb255" />
+	<script type="text/javascript">
+	
+	Number.prototype.toFixedDown = function(digits) {
+  var n = this - Math.pow(10, -digits)/2;
+  n += n / Math.pow(2, 53); // added 1360765523: 17.56.toFixedDown(2) === "17.56"
+  return n.toFixed(digits);
+}
+
+	function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+	$('#hex').change(function() {
+	console.log($(this));
+	   var hex = $(this).val();
+	   var rgb = hexToRgb(hex);
+	   $('#rgb').val(
+	       (rgb.r/255).toFixedDown(2) + ', ' + (rgb.g/255).toFixedDown(2) + ', ' + (rgb.b/255).toFixedDown(2) 
+	   );
+	   
+	   $('#rgb255').val(
+           rgb.r + ', ' + rgb.g + ', ' + rgb.b 
+       );
+	});
+    </script>
+</body>
+</html>
